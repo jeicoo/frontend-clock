@@ -3,3 +3,7 @@ export interface ServerTime {
     date: string;
     timezone: string;
 }
+
+export interface ManilaTime {
+    time: string;
+}

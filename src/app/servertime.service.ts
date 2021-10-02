@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { ServerTime } from './servertime'
+import { ServerTime, ManilaTime } from './servertime'
 
 
 @Injectable({
@@ -15,6 +15,11 @@ export class ServertimeService {
 
   getServerTime(): Observable<ServerTime> {
     const url = `${this.apiUrl}/time/server`;
-    return this.http.get<ServerTime>(url)
-  } 
+    return this.http.get<ServerTime>(url);
+  }
+
+  getManilaTime(): Observable<ManilaTime> {
+    const url = `${this.apiUrl}/time/manila`;
+    return this.http.get<ManilaTime>(url);
+  }
 }

@@ -4,11 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ServerclockComponent } from './serverclock/serverclock.component';
+import { ManilaclockComponent } from './manilaclock/manilaclock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ServerclockComponent
+    ServerclockComponent,
+    ManilaclockComponent
   ],
   imports: [
     BrowserModule,
