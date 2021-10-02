@@ -1,5 +1,11 @@
 # Clock
 
+This application shows server time, date and timezone. It converted time of server to Asia/Manila timezone as well.
+
+The application is polling the backend server to be able to update the time that is being showed in the page.
+Due to rate limit from 3rd party, only one client of the application can be updated at a given point of time.
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.
 
 ## Development server
@@ -25,3 +31,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Distribution
+
+Run `docker build -t <YOUR DESIRED REPOSITORY NAME> .`. This command will build a copy of this application that is being served via a static web server.
