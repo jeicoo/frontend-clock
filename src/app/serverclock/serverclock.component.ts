@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+
 import { ServerTime } from '../servertime';
 import { ServertimeService } from '../servertime.service';
 
@@ -7,9 +10,10 @@ import { ServertimeService } from '../servertime.service';
   templateUrl: './serverclock.component.html',
   styleUrls: ['./serverclock.component.css']
 })
-export class ServerclockComponent implements OnInit {
+export class ServerclockComponent implements OnInit, OnDestroy {
   constructor(private servertimeService: ServertimeService) { }
 
+  timeInterval: Subscription = new Subscription()
   serverTime: ServerTime = {
     time: '',
     date: '',
@@ -17,12 +21,18 @@ export class ServerclockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getServerTime();
+    this.getServerTime()
   }
 
   getServerTime(): void {
-    this.servertimeService.getServerTime()
-      .subscribe(serverTime => this.serverTime = serverTime);
+    this.timeInterval = interval(1000)
+      .pipe(
+        startWith(0),
+        switchMap(() => this.servertimeService.getServerTime()) 
+      ).subscribe(serverTime => this.serverTime = serverTime);
   }
 
+  ngOnDestroy(): void {
+    this.timeInterval.unsubscribe();
+  }
 }

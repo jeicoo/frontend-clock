@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+
 import { ManilaTime } from '../servertime';
 import { ServertimeService } from '../servertime.service';
 
@@ -10,6 +13,7 @@ import { ServertimeService } from '../servertime.service';
 export class ManilaclockComponent implements OnInit {
   constructor(private servertimeService: ServertimeService) { }
 
+  timeInterval: Subscription = new Subscription()
   manilaTime: ManilaTime = {
     time: ''
   }
@@ -19,8 +23,15 @@ export class ManilaclockComponent implements OnInit {
   }
 
   getManilaTime(): void {
-    this.servertimeService.getManilaTime()
-    .subscribe(manilaTime => this.manilaTime = manilaTime);
+    this.timeInterval = interval(1000)
+      .pipe(
+        startWith(0),
+        switchMap(() => this.servertimeService.getManilaTime())
+      ).subscribe(manilaTime => this.manilaTime = manilaTime);
+  }
+
+  ngOnDestroy(): void {
+    this.timeInterval.unsubscribe();
   }
  
 }
